@@ -1,0 +1,109 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+-- -----------------------------------------------------
+-- Schema pokemonDB
+-- -----------------------------------------------------
+
+-- -----------------------------------------------------
+-- Schema pokemonDB
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `pokemonDB` DEFAULT CHARACTER SET utf8 ;
+USE `pokemonDB` ;
+
+-- -----------------------------------------------------
+-- Table `pokemonDB`.`pokemon`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pokemonDB`.`pokemon` (
+  `idpokemon` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `levelToFoundOrEvol` INT NULL,
+  PRIMARY KEY (`idpokemon`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pokemonDB`.`type`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pokemonDB`.`type` (
+  `idtype` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idtype`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pokemonDB`.`pokemonEvolution`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pokemonDB`.`pokemonEvolution` (
+  `pokemon_idpokemon` INT NOT NULL,
+  `idpokemonEvolution` INT NULL,
+  PRIMARY KEY (`pokemon_idpokemon`),
+  INDEX `fk_pokemonEvolution_pokemonEvolution1_idx` (`idpokemonEvolution` ASC),
+  CONSTRAINT `fk_pokemonEvolution_pokemon1`
+    FOREIGN KEY (`pokemon_idpokemon`)
+    REFERENCES `pokemonDB`.`pokemon` (`idpokemon`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pokemonEvolution_pokemonEvolution1`
+    FOREIGN KEY (`idpokemonEvolution`)
+    REFERENCES `pokemonDB`.`pokemonEvolution` (`pokemon_idpokemon`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pokemonDB`.`pokemonPet`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pokemonDB`.`pokemonPet` (
+  `pokemon_idpokemon` INT NOT NULL,
+  `idpokemonEvolution` INT NOT NULL,
+  `habilities` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`pokemon_idpokemon`, `idpokemonEvolution`),
+  INDEX `fk_pokemonPet_pokemon1_idx` (`pokemon_idpokemon` ASC),
+  INDEX `fk_pokemonPet_pokemonEvolution1_idx` (`idpokemonEvolution` ASC),
+  CONSTRAINT `fk_pokemonPet_pokemon1`
+    FOREIGN KEY (`pokemon_idpokemon`)
+    REFERENCES `pokemonDB`.`pokemon` (`idpokemon`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pokemonPet_pokemonEvolution1`
+    FOREIGN KEY (`idpokemonEvolution`)
+    REFERENCES `pokemonDB`.`pokemonEvolution` (`pokemon_idpokemon`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `pokemonDB`.`pokemonEvolution_has_type`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `pokemonDB`.`pokemonEvolution_has_type` (
+  `pokemonEvolution_pokemon_idpokemon` INT NOT NULL,
+  `type_idtype` INT NOT NULL,
+  PRIMARY KEY (`pokemonEvolution_pokemon_idpokemon`, `type_idtype`),
+  INDEX `fk_pokemonEvolution_has_type_type1_idx` (`type_idtype` ASC),
+  INDEX `fk_pokemonEvolution_has_type_pokemonEvolution1_idx` (`pokemonEvolution_pokemon_idpokemon` ASC),
+  CONSTRAINT `fk_pokemonEvolution_has_type_pokemonEvolution1`
+    FOREIGN KEY (`pokemonEvolution_pokemon_idpokemon`)
+    REFERENCES `pokemonDB`.`pokemonEvolution` (`pokemon_idpokemon`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_pokemonEvolution_has_type_type1`
+    FOREIGN KEY (`type_idtype`)
+    REFERENCES `pokemonDB`.`type` (`idtype`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+

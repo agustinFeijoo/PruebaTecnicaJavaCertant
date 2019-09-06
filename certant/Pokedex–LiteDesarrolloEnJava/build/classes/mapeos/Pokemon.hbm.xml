@@ -1,0 +1,28 @@
+<?xml  version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE  hibernate-mapping  PUBLIC  "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="datos.Pokemon" table="pokemon">
+		<id column="idpokemon" name="idPokemon">
+			<generator class="identity" />
+		</id>
+		<property name="name" column="name" type="string" />
+		<property name="levelToFound" column="levelToFoundOrEvol"
+			type="int" />
+
+		<joined-subclass name="datos.PokemonPet" table="pokemonPet">
+			<key column="pokemon_idpokemon" />
+			<property column="habilities" name="habilities" type="string" />
+			<many-to-one name="pokemonEvolution" class="datos.PokemonEvolution" column="idpokemonEvolution" not-null="true"></many-to-one>
+		</joined-subclass>
+
+		<joined-subclass name="datos.PokemonEvolution" table="pokemonEvolution">
+			<key column="pokemon_idpokemon" />
+			<one-to-one name="prePokemonEvolution" class="datos.PokemonEvolution"></one-to-one>
+			<set table="pokemonEvolution_has_type" name="types" outer-join="true">
+				<key column="pokemonEvolution_pokemon_idpokemon" />
+				<many-to-many column="type_idtype" class="datos.Type" />
+			</set>
+
+		</joined-subclass>
+	</class>
+</hibernate-mapping>
