@@ -104,6 +104,16 @@ public class PokemonEvolutionDao {
 		}
 		return objeto;
 	}
+	public PokemonEvolution traerPokemonEvolution(String name) throws HibernateException {
+		PokemonEvolution objeto = null;
+		try {
+			iniciaOperacion();
+			objeto = (PokemonEvolution) session.createQuery("from Pokemon where name like '"+name+"'").uniqueResult();
+		} finally {
+			session.close();
+		}
+		return objeto;
+	}
 
 	
 

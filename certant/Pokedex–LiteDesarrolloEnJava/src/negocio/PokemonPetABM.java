@@ -39,6 +39,7 @@ public class PokemonPetABM {
 		Iterator<Type> itType;
 		Type type;
 		PokemonPet pkPt;
+		String nameClass;
 		PokemonEvolution pe;
 		
 		
@@ -51,6 +52,9 @@ public class PokemonPetABM {
 					
 					+ "<th>"
 						+ "Type"
+					+ "</th>"
+					+ "<th>"
+					+ "Name class"
 					+ "</th>"
 					
 					+ "<th>"
@@ -71,6 +75,8 @@ public class PokemonPetABM {
 			pkPt=(PokemonPet) itPp.next();
 			
 			pe=pokemonPetDao.traerPokemonEvolutionYTypes(pkPt.getIdPokemon());
+			nameClass=pe.getName();
+			
 			if(pe!=null) {		//En otras paralabras si no tiene evolucion no forma string de nombres de evolucion
 				
 				itType=pe.getTypes().iterator();
@@ -87,7 +93,7 @@ public class PokemonPetABM {
 			
 		 
 			
-			// No me salió realizar la cadena de types
+	
 			
 			
 			response.getWriter().append(
@@ -95,8 +101,9 @@ public class PokemonPetABM {
 							 "<tr>"	
 								+ "<td id='c1f"+pkPt.getIdPokemon()+"'>"+pkPt.getName()+"</td>"
 								+ "<td id='c2f"+pkPt.getIdPokemon()+"'>"+sClases+"</td>"
-								+ "<td id='c3f"+pkPt.getIdPokemon()+"'>"+pkPt.getLevelToFound()+"</td>"
-								+ "<td id='c4f"+pkPt.getIdPokemon()+"'>"+pkPt.getHabilities()+"</td>"
+								+ "<td id='c3f"+pkPt.getIdPokemon()+"'>"+nameClass+"</td>"
+								+ "<td id='c4f"+pkPt.getIdPokemon()+"'>"+pkPt.getLevelToFound()+"</td>"
+								+ "<td id='c5f"+pkPt.getIdPokemon()+"'>"+pkPt.getHabilities()+"</td>"
 								+"<td><button onclick='modificarPokemonPet("+pkPt.getIdPokemon()+")'id='boton"+pkPt.getIdPokemon()+ 
 								"'>Modificar</button><button onclick='eliminarPokemonPet("+pkPt.getIdPokemon()+")'>Eliminar</button></tr>");
 			
@@ -108,6 +115,12 @@ public class PokemonPetABM {
 	public int agregar(String name,int levelToFound,String habilities) throws Exception{
 		
 		PokemonPet p = new PokemonPet();
+		return dao.agregar(p);
+	}		
+public int agregar(String name,int levelToFound,PokemonEvolution pokemonEvolution,String habilities) throws Exception{
+		
+		PokemonPet p = new PokemonPet(name,levelToFound,pokemonEvolution,habilities);
+		System.out.println(pokemonEvolution.getIdPokemon());
 		return dao.agregar(p);
 	}		
 	}

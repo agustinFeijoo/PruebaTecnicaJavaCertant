@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import datos.PokemonEvolution;
+import negocio.PokemonEvolutionABM;
 import negocio.PokemonPetABM;
 
 /**
@@ -31,7 +33,8 @@ public class PokemonPet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		PokemonPetABM pokemonPetABM=new PokemonPetABM();
-		
+		PokemonEvolution pke;
+		PokemonEvolutionABM pokemonEvolutionABM=new PokemonEvolutionABM();
 		// TODO Auto-generated method stub
 		
 		if(request.getParameter("borrar")!=null){
@@ -40,11 +43,13 @@ public class PokemonPet extends HttpServlet {
 		}
 		if(request.getParameter("guardar")!=null) {
 			String name=request.getParameter("name");
-			//String apellido=request.getParameter("type"); el usuario no debería escribir los types names por acá...En tal caso debería hacer un select
+			String className=request.getParameter("className");
 			int levelToFound=Integer.parseInt(request.getParameter("levelToFound"));
 			String habilities=request.getParameter("habilities");
+			System.out.println("hola :"+className+" , "+habilities+" , "+levelToFound+" , "+ name);
+			pke=pokemonEvolutionABM.traer(className);
 			try {
-				pokemonPetABM.agregar(name,levelToFound,habilities);
+				pokemonPetABM.agregar(name,levelToFound,pke,habilities);
 			}catch(Exception e) {
 				e.printStackTrace();
 			}

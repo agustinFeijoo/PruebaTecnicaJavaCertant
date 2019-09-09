@@ -20,7 +20,13 @@ public class PokemonPet extends Pokemon {
 		this.pokemonEvolution = pokemonEvolution;
 		this.habilities = habilities;
 	}
-
+	public PokemonPet(String name, int levelToFound,PokemonEvolution pokemonEvolution,String habilities) {
+		super(name, levelToFound);
+		this.pokemonEvolution=pokemonEvolution;
+		this.habilities=habilities;
+		
+		// TODO Auto-generated constructor stub
+	}
 
 
 	public PokemonPet(String name, int levelToFound) {
