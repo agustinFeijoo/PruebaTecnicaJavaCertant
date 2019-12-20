@@ -31,7 +31,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `pokemonDB`.`type` (
   `idtype` INT NOT NULL AUTO_INCREMENT,
   `name` VARCHAR(45) NOT NULL,
-  `description` VARCHAR(45) NOT NULL,
+  `description` VARCHAR(350) NOT NULL,
   PRIMARY KEY (`idtype`))
 ENGINE = InnoDB;
 
@@ -63,7 +63,7 @@ ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `pokemonDB`.`pokemonPet` (
   `pokemon_idpokemon` INT NOT NULL,
   `idpokemonEvolution` INT NOT NULL,
-  `habilities` VARCHAR(45) NOT NULL,
+  `habilities` VARCHAR(350) NOT NULL,
   PRIMARY KEY (`pokemon_idpokemon`, `idpokemonEvolution`),
   INDEX `fk_pokemonPet_pokemon1_idx` (`pokemon_idpokemon` ASC),
   INDEX `fk_pokemonPet_pokemonEvolution1_idx` (`idpokemonEvolution` ASC),
